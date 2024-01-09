@@ -22,7 +22,7 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     },
     {
       errorMessageMode: mode,
-    },
+    }
   )
 }
 
@@ -50,6 +50,6 @@ export function testRetry() {
         count: 5,
         waitTime: 1000,
       },
-    },
+    }
   )
 }

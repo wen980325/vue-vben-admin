@@ -1,37 +1,36 @@
 <template>
-  <Tooltip :title="getTitle" placement="bottom" :mouseEnterDelay="0.5">
+  <ATooltip :title="getTitle" placement="bottom" :mouseEnterDelay="0.5">
     <span @click="toggle">
       <FullscreenOutlined v-if="!isFullscreen" />
       <FullscreenExitOutlined v-else />
     </span>
-  </Tooltip>
+  </ATooltip>
 </template>
 <script lang="ts">
-  import { defineComponent, computed, unref } from 'vue'
-  import { Tooltip } from 'ant-design-vue'
-  import { useI18n } from '/@/hooks/web/useI18n'
-  import { useFullscreen } from '@vueuse/core'
+import { defineComponent, computed, unref } from 'vue'
+import { useI18n } from '/@/hooks/web/useI18n'
+import { useFullscreen } from '@vueuse/core'
 
-  import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
-  export default defineComponent({
-    name: 'FullScreen',
-    components: { FullscreenExitOutlined, FullscreenOutlined, Tooltip },
+import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue'
+export default defineComponent({
+  name: 'FullScreen',
+  components: { FullscreenExitOutlined, FullscreenOutlined },
 
-    setup() {
-      const { t } = useI18n()
-      const { toggle, isFullscreen } = useFullscreen()
+  setup() {
+    const { t } = useI18n()
+    const { toggle, isFullscreen } = useFullscreen()
 
-      const getTitle = computed(() => {
-        return unref(isFullscreen)
-          ? t('layout.header.tooltipExitFull')
-          : t('layout.header.tooltipEntryFull')
-      })
+    const getTitle = computed(() => {
+      return unref(isFullscreen)
+        ? t('layout.header.tooltipExitFull')
+        : t('layout.header.tooltipEntryFull')
+    })
 
-      return {
-        getTitle,
-        isFullscreen,
-        toggle,
-      }
-    },
-  })
+    return {
+      getTitle,
+      isFullscreen,
+      toggle,
+    }
+  },
+})
 </script>

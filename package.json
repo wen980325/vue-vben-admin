@@ -1,19 +1,15 @@
 {
   "name": "vben-admin",
+  "private": true,
   "version": "2.8.0",
-  "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
-  },
   "scripts": {
     "commit": "czg",
-    "bootstrap": "pnpm install",
     "serve": "npm run dev",
     "dev": "vite",
     "build": "cross-env NODE_ENV=production vite build && esno ./build/script/postBuild.ts",
+    "build:dev": "cross-env vite build --mode development && esno ./build/script/postBuild.ts",
     "build:test": "cross-env vite build --mode test && esno ./build/script/postBuild.ts",
-    "build:no-cache": "pnpm clean:cache && npm run build",
+    "build:main": "cross-env vite build --mode production && esno ./build/script/postBuild.ts",
     "report": "cross-env REPORT=true npm run build",
     "type:check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "npm run build && vite preview",
@@ -22,13 +18,11 @@
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
     "clean:lib": "rimraf node_modules",
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
-    "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:prettier": "prettier --write  \"src/**/*.{ts,js,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:lint-staged": "lint-staged",
     "test:unit": "jest",
     "test:gzip": "npx http-server dist --cors --gzip -c-1",
     "test:br": "npx http-server dist --cors --brotli -c-1",
-    "reinstall": "rimraf pnpm-lock.yaml && rimraf package.lock.json && rimraf node_modules && npm run bootstrap",
     "prepare": "husky install",
     "gen:icon": "esno ./build/generate/icon/index.ts"
   },
@@ -118,20 +112,15 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.70.2",
     "rollup-plugin-visualizer": "^5.6.0",
-    "stylelint": "^14.7.1",
-    "stylelint-config-prettier": "^9.0.3",
-    "stylelint-config-recommended": "^7.0.0",
-    "stylelint-config-recommended-vue": "^1.4.0",
-    "stylelint-config-standard": "^25.0.0",
-    "stylelint-order": "^5.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
+    "unplugin-auto-import": "^0.16.7",
+    "unplugin-vue-components": "^0.25.2",
     "vite": "^2.9.5",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-imagemin": "^0.6.1",
     "vite-plugin-mkcert": "^1.6.0",
-    "vite-plugin-mock": "^2.9.6",
     "vite-plugin-purge-icons": "^0.8.1",
     "vite-plugin-pwa": "^0.11.13",
     "vite-plugin-style-import": "^2.0.0",
@@ -147,21 +136,12 @@
     "rollup": "^2.56.3",
     "gifsicle": "5.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
-  },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
-  },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
   "engines": {
     "node": "^12 || >=14"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
       "prettier --write"
     ],
     "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
@@ -171,12 +151,9 @@
       "prettier --write"
     ],
     "*.vue": [
-      "eslint --fix",
-      "prettier --write",
-      "stylelint --fix"
+      "prettier --write"
     ],
     "*.{scss,less,styl,html}": [
-      "stylelint --fix",
       "prettier --write"
     ],
     "*.md": [

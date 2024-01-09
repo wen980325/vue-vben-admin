@@ -54,7 +54,7 @@ export function useRootSetting() {
   const getLayoutContentMode = computed(() =>
     appStore.getProjectConfig.contentMode === ContentEnum.FULL
       ? ContentEnum.FULL
-      : ContentEnum.FIXED,
+      : ContentEnum.FIXED
   )
 
   function setRootSetting(setting: Partial<RootSetting>) {

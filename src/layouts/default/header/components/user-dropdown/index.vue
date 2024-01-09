@@ -1,5 +1,5 @@
 <template>
-  <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
+  <ADropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
       <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
@@ -10,152 +10,148 @@
     </span>
 
     <template #overlay>
-      <Menu @click="handleMenuClick">
-        <MenuItem
+      <AMenu @click="handleMenuClick">
+        <DropMenuItem
           key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
           v-if="getShowDoc"
         />
-        <MenuDivider v-if="getShowDoc" />
-        <MenuItem
+        <AMenuDivider v-if="getShowDoc" />
+        <DropMenuItem
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
           icon="ion:power-outline"
         />
-      </Menu>
+      </AMenu>
     </template>
-  </Dropdown>
+  </ADropdown>
 </template>
 <script lang="ts">
-  // components
-  import { Dropdown, Menu } from 'ant-design-vue'
-  import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface'
+// components
+import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface'
 
-  import { defineComponent, computed } from 'vue'
+import { defineComponent, computed } from 'vue'
 
-  import { DOC_URL } from '/@/settings/siteSetting'
+import { DOC_URL } from '/@/settings/siteSetting'
 
-  import { useUserStore } from '/@/store/modules/user'
-  import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting'
-  import { useI18n } from '/@/hooks/web/useI18n'
-  import { useDesign } from '/@/hooks/web/useDesign'
-  import { useModal } from '/@/components/Modal'
+import { useUserStore } from '/@/store/modules/user'
+import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting'
+import { useI18n } from '/@/hooks/web/useI18n'
+import { useDesign } from '/@/hooks/web/useDesign'
+import { useModal } from '/@/components/Modal'
 
-  import headerImg from '/@/assets/images/header.jpg'
-  import { propTypes } from '/@/utils/propTypes'
-  import { openWindow } from '/@/utils'
+import headerImg from '/@/assets/images/header.jpg'
+import { propTypes } from '/@/utils/propTypes'
+import { openWindow } from '/@/utils'
 
-  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent'
+import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent'
 
-  type MenuEvent = 'logout' | 'doc'
+type MenuEvent = 'logout' | 'doc'
 
-  export default defineComponent({
-    name: 'UserDropdown',
-    components: {
-      Dropdown,
-      Menu,
-      MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
-    },
-    props: {
-      theme: propTypes.oneOf(['dark', 'light']),
-    },
-    setup() {
-      const { prefixCls } = useDesign('header-user-dropdown')
-      const { t } = useI18n()
-      const { getShowDoc } = useHeaderSetting()
-      const userStore = useUserStore()
+export default defineComponent({
+  name: 'UserDropdown',
+  components: {
+    DropMenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
+  },
+  props: {
+    theme: propTypes.oneOf(['dark', 'light']),
+  },
+  setup() {
+    const { prefixCls } = useDesign('header-user-dropdown')
+    const { t } = useI18n()
+    const { getShowDoc } = useHeaderSetting()
+    const userStore = useUserStore()
 
-      const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {}
-        return { realName, avatar: avatar || headerImg, desc }
-      })
+    const getUserInfo = computed(() => {
+      const { realName = '', avatar, desc } = userStore.getUserInfo || {}
+      return { realName, avatar: avatar || headerImg, desc }
+    })
 
-      const [register] = useModal()
+    const [register] = useModal()
 
-      //  login out
-      function handleLoginOut() {
-        userStore.confirmLoginOut()
+    //  login out
+    function handleLoginOut() {
+      userStore.confirmLoginOut()
+    }
+
+    // open doc
+    function openDoc() {
+      openWindow(DOC_URL)
+    }
+
+    function handleMenuClick(e: MenuInfo) {
+      switch (e.key as MenuEvent) {
+        case 'logout':
+          handleLoginOut()
+          break
+        case 'doc':
+          openDoc()
+          break
       }
+    }
 
-      // open doc
-      function openDoc() {
-        openWindow(DOC_URL)
-      }
-
-      function handleMenuClick(e: MenuInfo) {
-        switch (e.key as MenuEvent) {
-          case 'logout':
-            handleLoginOut()
-            break
-          case 'doc':
-            openDoc()
-            break
-        }
-      }
-
-      return {
-        prefixCls,
-        t,
-        getUserInfo,
-        handleMenuClick,
-        getShowDoc,
-        register,
-      }
-    },
-  })
+    return {
+      prefixCls,
+      t,
+      getUserInfo,
+      handleMenuClick,
+      getShowDoc,
+      register,
+    }
+  },
+})
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-header-user-dropdown';
+@prefix-cls: ~'@{namespace}-header-user-dropdown';
 
-  .@{prefix-cls} {
-    height: @header-height;
-    padding: 0 0 0 10px;
-    padding-right: 10px;
-    overflow: hidden;
-    font-size: 12px;
-    cursor: pointer;
-    align-items: center;
+.@{prefix-cls} {
+  height: @header-height;
+  padding: 0 0 0 10px;
+  padding-right: 10px;
+  overflow: hidden;
+  font-size: 12px;
+  cursor: pointer;
+  align-items: center;
 
-    img {
-      width: 24px;
-      height: 24px;
-      margin-right: 12px;
-    }
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
 
-    &__header {
-      border-radius: 50%;
-    }
+  &__header {
+    border-radius: 50%;
+  }
 
-    &__name {
-      font-size: 14px;
-    }
+  &__name {
+    font-size: 14px;
+  }
 
-    &--dark {
-      &:hover {
-        background-color: @header-dark-bg-hover-color;
-      }
-    }
-
-    &--light {
-      &:hover {
-        background-color: @header-light-bg-hover-color;
-      }
-
-      .@{prefix-cls}__name {
-        color: @text-color-base;
-      }
-
-      .@{prefix-cls}__desc {
-        color: @header-light-desc-color;
-      }
-    }
-
-    &-dropdown-overlay {
-      .ant-dropdown-menu-item {
-        min-width: 160px;
-      }
+  &--dark {
+    &:hover {
+      background-color: @header-dark-bg-hover-color;
     }
   }
+
+  &--light {
+    &:hover {
+      background-color: @header-light-bg-hover-color;
+    }
+
+    .@{prefix-cls}__name {
+      color: @text-color-base;
+    }
+
+    .@{prefix-cls}__desc {
+      color: @header-light-desc-color;
+    }
+  }
+
+  &-dropdown-overlay {
+    .ant-dropdown-menu-item {
+      min-width: 160px;
+    }
+  }
+}
 </style>

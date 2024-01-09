@@ -5,10 +5,12 @@ import legacy from '@vitejs/plugin-legacy'
 import purgeIcons from 'vite-plugin-purge-icons'
 import windiCSS from 'vite-plugin-windicss'
 import VitePluginCertificate from 'vite-plugin-mkcert'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 //import vueSetupExtend from 'vite-plugin-vue-setup-extend';
 import { configHtmlPlugin } from './html'
 import { configPwaConfig } from './pwa'
-import { configMockPlugin } from './mock'
 import { configCompressPlugin } from './compress'
 import { configStyleImportPlugin } from './styleImport'
 import { configVisualizerConfig } from './visualizer'
@@ -19,7 +21,6 @@ import { configSvgIconsPlugin } from './svgSprite'
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const {
     VITE_USE_IMAGEMIN,
-    VITE_USE_MOCK,
     VITE_LEGACY,
     VITE_BUILD_COMPRESS,
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE,
@@ -35,6 +36,21 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     VitePluginCertificate({
       source: 'coding',
     }),
+    Components({
+      resolvers: [AntDesignVueResolver()],
+      // globs: ['src/components/**/index.vue'], // 会导致index.vue生成的类型声明为Undefined
+    }),
+    // 自动导入api
+    AutoImport({
+      imports: ['vue', 'vue-router'],
+      // 设置为在'src/'目录下生成解决ts报错，默认是当前目录('./'，即根目录)
+      dts: 'src/auto-import.d.ts',
+      // 自动生成'eslintrc-auto-import.json'文件，在'.eslintrc.cjs'的'extends'中引入解决报错
+      // 'vue-global-api'这个插件仅仅解决vue3 hook报错
+      eslintrc: {
+        enabled: true,
+      },
+    }),
   ]
 
   // vite-plugin-windicss
@@ -48,9 +64,6 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // vite-plugin-svg-icons
   vitePlugins.push(configSvgIconsPlugin(isBuild))
-
-  // vite-plugin-mock
-  VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
 
   // vite-plugin-purge-icons
   vitePlugins.push(purgeIcons())
@@ -71,7 +84,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
     // rollup-plugin-gzip
     vitePlugins.push(
-      configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE),
+      configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE)
     )
 
     // vite-plugin-pwa
