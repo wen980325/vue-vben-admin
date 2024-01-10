@@ -67,7 +67,7 @@ function handleMenuEvent(menu: DropMenu) {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .app-locale-picker-overlay {
   .ant-dropdown-menu-item {
     min-width: 160px;

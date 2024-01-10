@@ -79,7 +79,7 @@ defineExpose({
   handleExpand,
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-collapse-container';
 
 .@{prefix-cls} {

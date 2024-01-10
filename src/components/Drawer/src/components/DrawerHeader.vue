@@ -46,7 +46,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-basic-drawer-header';
 @footer-height: 60px;
 .@{prefix-cls} {

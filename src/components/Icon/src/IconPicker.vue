@@ -160,7 +160,7 @@ function handleSearchChange(e: ChangeEvent) {
   currentList.value = icons.filter((item) => item.includes(value))
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-icon-picker';
 
 .@{prefix-cls} {

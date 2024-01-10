@@ -61,7 +61,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-basic-modal-close';
 .@{prefix-cls} {
   display: flex;

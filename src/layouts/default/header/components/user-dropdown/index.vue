@@ -102,7 +102,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-header-user-dropdown';
 
 .@{prefix-cls} {

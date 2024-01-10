@@ -40,7 +40,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-layout-sider-wrapper';
 
 .@{prefix-cls} {

@@ -171,7 +171,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-layout-menu';
 @logo-prefix-cls: ~'@{namespace}-app-logo';
 

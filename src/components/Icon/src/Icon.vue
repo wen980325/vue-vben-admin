@@ -99,7 +99,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .app-iconify {
   display: inline-block;
   // vertical-align: middle;

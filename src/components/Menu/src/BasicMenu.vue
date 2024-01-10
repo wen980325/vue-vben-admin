@@ -157,6 +157,6 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import './index.less';
 </style>

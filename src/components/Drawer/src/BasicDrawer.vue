@@ -189,7 +189,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @header-height: 60px;
 @detail-header-height: 40px;
 @prefix-cls: ~'@{namespace}-basic-drawer';

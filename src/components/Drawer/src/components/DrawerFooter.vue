@@ -63,7 +63,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-basic-drawer-footer';
 @footer-height: 60px;
 .@{prefix-cls} {

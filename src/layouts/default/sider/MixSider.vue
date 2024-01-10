@@ -341,7 +341,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-layout-mix-sider';
 @width: 80px;
 .@{prefix-cls} {

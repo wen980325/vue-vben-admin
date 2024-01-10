@@ -54,7 +54,7 @@ export default defineComponent({
   <SessionTimeoutLogin v-if="getIsSessionTimeout" />
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-setting-drawer-feature';
 
 .@{prefix-cls} {

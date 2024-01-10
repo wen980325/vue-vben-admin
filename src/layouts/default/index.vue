@@ -63,7 +63,7 @@ export default defineComponent({
   },
 })
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @prefix-cls: ~'@{namespace}-default-layout';
 
 .@{prefix-cls} {
